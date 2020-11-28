@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import dark from './styles/themes/Dark'
 import light from './styles/themes/Light'
 import { Dashboard } from './pages/Dashboard';
+import { List } from './pages/List';
 
 export const App: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ export const App: React.FC = () => {
     <ThemeProvider theme={ dark }>
       <GlobalStyles />
       <Layout>
-        <Dashboard />
+        <List />
       </Layout>
     </ThemeProvider>
   )
