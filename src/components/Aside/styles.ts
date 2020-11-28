@@ -1,3 +1,4 @@
+import { format } from 'path'
 import styled from 'styled-components'
 
 export const Container = styled.div `
@@ -9,30 +10,40 @@ export const Container = styled.div `
 
 export const Header = styled.div `
     display: flex;
-    color: ${ props => props.theme.colors.white };
-    background-color: ${ props => props.theme.colors.secondary };
+    align-items: center;
+    height: 70px;
 `
 
 export const LogoImg = styled.img `
-    grid-area: AS;
-    color: ${ props => props.theme.colors.white };
-    background-color: ${ props => props.theme.colors.secondary };
+    height: 40px;
+    width: 40px;
 `
 
-export const Title = styled.img `
-    grid-area: AS;
+export const Title = styled.h3 `
     color: ${ props => props.theme.colors.white };
-    background-color: ${ props => props.theme.colors.secondary };
+    margin-left: 10px;
 `
 
 export const MenuContainer = styled.nav `
-    grid-area: AS;
-    color: ${ props => props.theme.colors.white };
-    background-color: ${ props => props.theme.colors.secondary };
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
 `
 
 export const MenuItemLink = styled.a `
-    grid-area: AS;
-    color: ${ props => props.theme.colors.white };
-    background-color: ${ props => props.theme.colors.secondary };
+    display:flex;
+    align-items: center;
+    color: ${ props => props.theme.colors.info };
+    text-decoration: none;
+    margin: 7px 0;
+    transition: opacity .3s;
+
+    &:hover {
+        opacity: .7;
+    }
+
+    > svg {
+        font-size: 18px;
+        margin-right: 5px;
+    }
 `

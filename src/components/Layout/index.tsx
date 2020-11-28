@@ -4,12 +4,14 @@ import { Content } from '../Content';
 import { MainHeader } from '../MainHeader';
 import { Grid } from './styles';
 
-export const Layout: React.FC = () => {
+export const Layout: React.FC = ({ children }) => {
     return (
         <Grid>
             <MainHeader />
             <Aside />
-            <Content />
+            <Content>
+                { children }
+            </Content>
         </Grid>
     )
 }
