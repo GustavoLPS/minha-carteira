@@ -8,7 +8,7 @@ interface IHistoryFinanceCardInputProps {
     amount: string;
 }
 
-export const HistoryFinanceCard: React.FC<IHistoryFinanceCardInputProps> = ({ tagColor, title, subtitle, amount }) => {
+const HistoryFinanceCard: React.FC<IHistoryFinanceCardInputProps> = ({ tagColor, title, subtitle, amount }) => {
     return (
         <Container>
             <Tag tagColor={ tagColor } />
@@ -20,3 +20,5 @@ export const HistoryFinanceCard: React.FC<IHistoryFinanceCardInputProps> = ({ ta
         </Container>
     )
 }
+
+export default HistoryFinanceCard

@@ -1,9 +1,9 @@
 import React from 'react';
-import { ContentHeader } from '../../components/ContentHeader';
-import { SelectInput } from '../../components/SelectInput';
+import ContentHeader from '../../components/ContentHeader';
+import SelectInput from '../../components/SelectInput';
 import { Container } from './styles';
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
     const options = [
         { value: "Gustavo", label: "Gustavo"},
         { value: "Gustavo", label: "Gustavo"},
@@ -21,3 +21,5 @@ export const Dashboard: React.FC = () => {
         </div>
     )
 }
+
+export default Dashboard

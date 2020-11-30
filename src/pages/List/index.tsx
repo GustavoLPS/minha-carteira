@@ -1,14 +1,14 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { ContentHeader } from '../../components/ContentHeader';
-import { SelectInput } from '../../components/SelectInput';
-import { HistoryFinanceCard } from '../../components/HistoryFinanceCard';
-import { Container, Filters, Content } from './styles';
+import { v4 as uuid } from 'uuid'
+import ContentHeader from '../../components/ContentHeader';
+import SelectInput from '../../components/SelectInput';
+import HistoryFinanceCard from '../../components/HistoryFinanceCard';
 import gains from '../../repositories/gains';
 import expenses from '../../repositories/expenses';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { formatDate } from '../../utils/formatDate';
+import formatCurrency from '../../utils/formatCurrency';
+import formatDate  from '../../utils/formatDate';
 import listOfMonths from '../../utils/months'
-import { v4 as uuid } from 'uuid'
+import { Container, Filters, Content } from './styles';
 
 interface IRouteParams {
     match: {
@@ -27,23 +27,28 @@ interface IData {
     tagColor: string
 }
 
-export const List: React.FC<IRouteParams> = ({ match }) => {
+const List: React.FC<IRouteParams> = ({ match }) => {
     const [data, setData] = useState<IData[]>([])
     const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1))
     const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()))
-    const [selectedFrequency, setSelectedFrequency] = useState(['recorrente', 'eventual'])
-    const { type } = match.params
-    const title = useMemo(() => {
-        return type === 'entry-balance' ? 'Entradas' : 'Saídas'
-    }, [type])
+    const [frequencyFilteredSelected, setSelectedFrequency] = useState(['recorrente', 'eventual'])
+    const movimentType  = match.params.type
 
-    const lineColor = useMemo(() => {
-        return type === 'entry-balance' ? '#f7931b' : '#e44c4e'
-    }, [type])
-
-    const listData = useMemo(() => {
-        return type === 'entry-balance' ? gains : expenses
-    }, [type])
+    const pageData = useMemo(() => {
+        if (movimentType === 'entry-balance') {
+            return {
+                title: 'Entradas',
+                lineColor: '#f7931b',
+                listData: gains
+            }
+        } else {
+            return {
+                title: 'Saídas',
+                lineColor: '#e44c4e',
+                listData: expenses
+            }
+        }
+    }, [movimentType])
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
@@ -56,6 +61,7 @@ export const List: React.FC<IRouteParams> = ({ match }) => {
 
     const years = useMemo(() => {
         let uniqueYears: number[] = []
+        const { listData } = pageData
         listData.forEach(item => {
             const date = new Date(item.date)
             const year = date.getFullYear()
@@ -71,13 +77,13 @@ export const List: React.FC<IRouteParams> = ({ match }) => {
                 label: year
             }
         })
-    }, [listData])
+    }, [pageData])
 
     const handleFrequencyClick = (frequency: string) => {
-        const alreadySelected = selectedFrequency.findIndex(item => item === frequency)
+        const alreadySelected = frequencyFilteredSelected.findIndex(item => item === frequency)
 
         if (alreadySelected >= 0) {
-            const filtered = selectedFrequency.filter(item => item !== frequency)
+            const filtered = frequencyFilteredSelected.filter(item => item !== frequency)
             setSelectedFrequency(filtered)
         } else {
             setSelectedFrequency((prev) => [...prev, frequency])
@@ -85,12 +91,13 @@ export const List: React.FC<IRouteParams> = ({ match }) => {
     }
 
     useEffect(() => {
+        const { listData } = pageData
         const filteredData = listData.filter(item => {
             const date = new Date(item.date)
             const month = String(date.getMonth() + 1)
             const year = String(date.getFullYear())
 
-            return month === monthSelected && year === yearSelected && selectedFrequency.includes(item.frequency)
+            return month === monthSelected && year === yearSelected && frequencyFilteredSelected.includes(item.frequency)
         })
 
         const formattedData = filteredData.map(item => {
@@ -104,22 +111,22 @@ export const List: React.FC<IRouteParams> = ({ match }) => {
         })
 
         setData(formattedData)
-    }, [listData, monthSelected, yearSelected, data.length, selectedFrequency])
+    }, [pageData, monthSelected, yearSelected, data.length, frequencyFilteredSelected])
 
     return (
         <Container>
-            <ContentHeader title={ title } lineColor={ lineColor }>
+            <ContentHeader title={ pageData.title } lineColor={ pageData.lineColor }>
                 <SelectInput options={ months } onChange={e => setMonthSelected(e.target.value)} defaultValue={ monthSelected }/>
                 <SelectInput options={ years } onChange={e => setYearSelected(e.target.value)} defaultValue={ yearSelected }/>
             </ContentHeader>
             <Filters>
                 <button
                     type="button"
-                    className={`tag-filter tag-filter-recurrent ${selectedFrequency.includes('recorrente') && 'tag-actived'}`}
+                    className={`tag-filter tag-filter-recurrent ${frequencyFilteredSelected.includes('recorrente') && 'tag-actived'}`}
                     onClick={() => handleFrequencyClick('recorrente')}>Recorrentes</button>
                 <button
                     type="button"
-                    className={`tag-filter tag-filter-eventual ${selectedFrequency.includes('eventual') && 'tag-actived'}`}
+                    className={`tag-filter tag-filter-eventual ${frequencyFilteredSelected.includes('eventual') && 'tag-actived'}`}
                     onClick={() => handleFrequencyClick('eventual')}>Eventuais</button>
             </Filters>
             <Content>
@@ -138,3 +145,5 @@ export const List: React.FC<IRouteParams> = ({ match }) => {
         </Container>
     )
 }
+
+export default List

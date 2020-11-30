@@ -1,4 +1,4 @@
-export const formatCurrency = ( current: number ): string => {
+export default ( current: number ): string => {
     return current.toLocaleString(
         'pt-br',
         {

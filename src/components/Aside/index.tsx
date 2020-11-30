@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Header, LogoImg, Title, MenuContainer, MenuItemLink } from './styles';
-import logoImg from "../../assets/logo.svg"
 import { MdDashboard, MdArrowUpward, MdExitToApp, MdArrowDownward } from 'react-icons/md'
+import logoImg from "../../assets/logo.svg"
 
-export const Aside: React.FC = () => {
+const Aside: React.FC = () => {
     return (
         <Container>
             <Header>
@@ -29,3 +29,5 @@ export const Aside: React.FC = () => {
         </Container>
     )
 }
+
+export default Aside

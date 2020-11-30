@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from './styles';
+import { Container } from './styles'
 
 interface ISelectInputProps {
     options: {
@@ -10,7 +10,7 @@ interface ISelectInputProps {
     defaultValue?: string | number
 }
 
-export const SelectInput: React.FC<ISelectInputProps> = ({ options, onChange, defaultValue }) => {
+const SelectInput: React.FC<ISelectInputProps> = ({ options, onChange, defaultValue }) => {
     return (
         <Container>
             <select onChange={ onChange } defaultValue={ defaultValue }>
@@ -23,3 +23,5 @@ export const SelectInput: React.FC<ISelectInputProps> = ({ options, onChange, de
         </Container>
     )
 }
+
+export default SelectInput
