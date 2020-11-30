@@ -11,7 +11,6 @@ import {
 const MainHeader: React.FC = () => {
     const emoji = useMemo(() => {
         const indice = Math.floor(Math.random() * emojis.length)
-        console.log(emojis)
         return emojis[indice]
     }, [])
     return (
